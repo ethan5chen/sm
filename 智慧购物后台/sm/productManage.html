@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>产品管理</title>
+  <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+  <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+  <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap-table.css">
+  <link rel="stylesheet" href="css/plugins/sweetalert/sweetalert2.css">
+</head>
+<style>
+  body{
+    margin: 10px 5px;
+  }
+  button{
+    margin-left: 2%;
+  }
+  #videodiv{
+    max-height:100px;
+    max-width: 200px; 
+  }
+</style>
+<body>
+  <div  id="toolbar">
+    <div class=" form-inline">
+      <a type="button" class="btn btn-outline btn-default" data-toggle="modal" id="add-a">
+        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+      </a>
+      <input type="text"   class="form-control"placeholder="搜索" id="search-input">
+      <input type="button" value="搜索"  class="btn btn-primary" id="searchButton"> 
+    </div>
+  </div>
+  <table id="table">
+
+  </table>
+  <!--fade:模态框出现过程稍缓  -->
+  <div id="addModal" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <h3 class="m-t-none m-b">新增商品</h3>
+            <form id="addForm" role="form" action="http://47.98.223.167:8080/sModelNew/WebMainServlet"
+            enctype="multipart/form-data" method="post" target="nm_iframe" >
+            <!-- <form id="addForm" enctype="multipart/form-data" role="form"> -->
+             <!--  <input name="method" value="addStaff.action" hidden> -->
+             <input id="method" type="hidden" name="method" value="addGoods" required>
+             <div class="form-group">
+              <label>商品名称：</label>
+              <input id="goodsName" type="text" name="goodsName" placeholder="请输入商品名称" class="form-control"
+              required>
+            </div>
+            <div class="form-group">
+              <label>品牌：</label>
+              <input id="brand" type="text" name="brand" placeholder="请输入品牌名" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>每盒价格：</label>
+              <input id="pack_price" type="text" name="pack_price" placeholder="请输入每盒价格" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>整条价格：</label>
+              <input id="carton_price" type="text" name="carton_price" placeholder="请输入整条价格" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>产地：</label>
+              <input id="productionArea" type="text" name="productionArea" placeholder="请输入产地" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>类别：</label>
+              <select id="type" type="text" name="type"  class="form-control" required>
+                <option value="" selected>请选择</option>
+                <option value="爆珠">爆珠</option>
+                <option value="细支">细支</option>
+                <option value="中支">中支</option>
+                <option value="粗支">粗支</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>焦糖含量：</label>
+              <select id="tar" type="text" name="tar"  class="form-control" required>
+                <option value="" selected>请选择</option>
+                <option value="6毫克以下">6毫克以下</option>
+                <option value="6到8毫克">6到8毫克</option>
+                <option value="8毫克以上">8毫克以上</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>新品：</label>
+              <input id="newArrival" type="radio" name="newArrival" required value="是"><label>是</label>
+              <input id="newArrival" type="radio" name="newArrival" required value="否"><label>否</label>
+            </div>
+            <div class="form-group">
+              <label>模型文件夹名称(放入img文件夹下)：</label>
+              <input id="modelFileName" type="text" name="modelFileName" placeholder="请输入模型文件夹名称" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="mainImg">主图：
+                <img style="width: 100px;height: 80px;" class="img-thumbnail"id="cropedBigImg" value='custom' src="img/添加图片.png"   data-address='' title="点击添加图片" /></label>
+                <input id="mainImg"  style="display:none;" type="file" name="mainImg"  required >
+              </div>
+              <div class="form-group">
+                <label for="detailImg1">详情图：
+                  <img style="width: 85px;height: 80px;" class="img-thumbnail"id="cropedBigImg1" value='custom' src="img/添加图片.png"   data-address='' title="点击添加图片" />
+                </label>
+                <label for="detailImg2">
+                  <img style="width: 85px;height: 80px;" class="img-thumbnail"id="cropedBigImg2" value='custom' src="img/添加图片.png"    data-address='' title="点击添加图片" />
+                </label>
+                <label for="detailImg3">
+                  <img style="width: 85px;height: 80px;" class="img-thumbnail"id="cropedBigImg3" value='custom' src="img/添加图片.png"    data-address='' title="点击添加图片" />
+                </label>
+                <label for="detailImg4">
+                  <img style="width: 85px;height: 80px;" class="img-thumbnail"id="cropedBigImg4" value='custom' src="img/添加图片.png"    data-address='' title="点击添加图片" />
+                </label>
+                <label for="detailImg5">
+                  <img style="width: 85px;height: 80px;" class="img-thumbnail"id="cropedBigImg5" value='custom' src="img/添加图片.png"    data-address='' title="点击添加图片" />
+                </label>
+                <input id="detailImg1" style="display:none;" type="file" name="detailImg1" required>
+                <input id="detailImg2" style="display:none;" type="file" name="detailImg2" required>
+                <input id="detailImg3" style="display:none;" type="file" name="detailImg3" required>
+                <input id="detailImg4" style="display:none;" type="file" name="detailImg4" required>
+                <input id="detailImg5" style="display:none;" type="file" name="detailImg5" required>
+              </div>
+              <div>
+               <button id="addStaffButton" class="btn btn-sm btn-primary pull-right m-t-n-xs"  type="button" ><strong>提交</strong>
+                <button class="btn btn-sm btn-white pull-right m-t-n-xs" type="button" data-toggle="modal"
+                data-target="#addModal"><strong>取消</strong></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="updateModal" class="modal fade " aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <h3 class="m-t-none m-b">修改商品</h3>
+            <form id="addForm" role="form" action=""
+            enctype="multipart/form-data" method="post" target="nm_iframe" >
+            <!-- <form id="addForm" enctype="multipart/form-data" role="form"> -->
+             <!--  <input name="method" value="addStaff.action" hidden> -->
+             <input id="upmethod" type="hidden" name="method" value="modifyGoods" required>
+             <div class="form-group">
+              <label>商品名称：</label>
+              <input id="upgoodsName" type="text" name="goodsName" placeholder="请输入商品名称" class="form-control"
+              required>
+            </div>
+            <div class="form-group">
+              <label>品牌：</label>
+              <input id="upbrand" type="text" name="brand" placeholder="请输入品牌名" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>每盒价格：</label>
+              <input id="uppack_price" type="text" name="pack_price" placeholder="请输入每盒价格" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>整条价格：</label>
+              <input id="upcarton_price" type="text" name="carton_price" placeholder="请输入整条价格" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>产地：</label>
+              <input id="upproductionArea" type="text" name="productionArea" placeholder="请输入产地" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>类别：</label>
+              <select id="uptype" type="text" name="type"  class="form-control" required>
+                <option value="" selected>请选择</option>
+                <option value="爆珠">爆珠</option>
+                <option value="细支">细支</option>
+                <option value="中支">中支</option>
+                <option value="粗支">粗支</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>焦糖含量：</label>
+              <select id="uptar" type="text" name="tar"  class="form-control" required>
+                <option value="" selected>请选择</option>
+                <option value="6毫克以下">6毫克以下</option>
+                <option value="6到8毫克">6到8毫克</option>
+                <option value="8毫克以上">8毫克以上</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>新品：</label>
+              <input id="newArrival" type="radio" name="upnewArrival" required value="是"><label>是</label>
+              <input id="newArrival" type="radio" name="upnewArrival" required value="否"><label>否</label>
+            </div>
+            <div class="form-group">
+              <label>模型文件夹名称(放入img文件夹下)：</label>
+              <input id="upmodelFileName" type="text" name="upmodelFileName" placeholder="请输入模型文件夹名称" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="upmainImg">主图：
+                <img style="width: 100px;height: 80px;" class="img-thumbnail"id="upcropedBigImg" value='custom' src="img/添加图片.png"   data-address='' title="点击添加图片" /></label>
+                <input id="upmainImg"  style="display:none;" type="file" name="mainImg"  required >
+              </div>
+              <div class="form-group">
+                <label for="updetailImg1">详情图：
+                  <img style="width: 85px;height: 80px;" class="img-thumbnail"id="upcropedBigImg1" value='custom' src="img/添加图片.png"   data-address='' title="点击添加图片" />
+                </label>
+                <label for="updetailImg2">
+                  <img style="width: 85px;height: 80px;" class="img-thumbnail"id="upcropedBigImg2" value='custom' src="img/添加图片.png"    data-address='' title="点击添加图片" />
+                </label>
+                <label for="updetailImg3">
+                  <img style="width: 85px;height: 80px;" class="img-thumbnail"id="upcropedBigImg3" value='custom' src="img/添加图片.png"    data-address='' title="点击添加图片" />
+                </label>
+                <label for="updetailImg4">
+                  <img style="width: 85px;height: 80px;" class="img-thumbnail"id="upcropedBigImg4" value='custom' src="img/添加图片.png"    data-address='' title="点击添加图片" />
+                </label>
+                <label for="updetailImg5">
+                  <img style="width: 85px;height: 80px;" class="img-thumbnail"id="upcropedBigImg5" value='custom' src="img/添加图片.png"    data-address='' title="点击添加图片" />
+                </label>
+                <input id="updetailImg1" style="display:none;" type="file" name="detailImg1" required>
+                <input id="updetailImg2" style="display:none;" type="file" name="detailImg2" required>
+                <input id="updetailImg3" style="display:none;" type="file" name="detailImg3" required>
+                <input id="updetailImg4" style="display:none;" type="file" name="detailImg4" required>
+                <input id="updetailImg5" style="display:none;" type="file" name="detailImg5" required>
+              </div>
+              </div>
+              <div>
+               <button id="updateStaffButton" class="btn btn-sm btn-primary pull-right m-t-n-xs"  type="button" ><strong>提交</strong>
+                <button class="btn btn-sm btn-white pull-right m-t-n-xs" type="button" data-toggle="modal"
+                data-target="#updateModal"><strong>取消</strong></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--删除模态框-->
+    <div id="delete-modal" class="modal fade " aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">删除</h4>
+            </div>
+            <div class="modal-body">
+              <h3 class="text-center" id="delete-prompt"></h3>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary" id="delete-confirm-button">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="lib/jquery.min.js?v=2.1.4"></script>
+      <script src="lib/bootstrap.min.js?v=3.3.6"></script>
+      <script src="lib/bootstrap-table.js"></script>
+      <script src="lib/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+      <script src="lib/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+      <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+      <script src="lib/plugins/sweetalert/sweetalert2.js"></script>
+      <script src="lib/plugins/validate/jquery.validate.min.js"></script>
+      <script src="lib/plugins/validate/messages_zh.min.js"></script>
+      <!-- <script type="text/javascript" src="js/publicURL.js"></script> -->
+      <script src="js/productManage.js"></script>
+
+
+    </body>
+    </html>

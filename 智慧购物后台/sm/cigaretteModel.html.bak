@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>模型展示</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/default.css">
+	<link rel="stylesheet" href="css/threesixty.css">
+	<style type="text/css">
+		/* #container {
+			padding-top: 50px;
+		} */
+	</style>
+</head>
+
+<body>
+	<section class="container-fluid" id="container">
+		<div class="threesixty product1">
+			<div class="spinner">
+				<span>0%</span>
+			</div>
+			<ol class="threesixty_images"></ol>
+		</div>
+	</section>
+
+
+	<script src="js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src='dist/threesixty.min.js'></script>
+	<script type="text/javascript" src='js/publicURL.js'></script>
+	<script type="text/javascript">
+		
+		let goodsId = getQueryString("goodsId");
+		var modelFileName="";
+		console.log(goodsId);
+
+		$(function () {
+			$.ajax({
+				url: "http://47.98.223.167:8080/sModelNew/MainServlet",
+				method: 'post',
+				data: {
+					method: "getGoodsDetail",
+					goodsId: goodsId,
+				},
+				dataType: 'json',
+				success: function (res) {
+					// console.log(res.data);
+					modelFileName=res.data.modelFileName;
+					// console.log(modelFileName);
+					init();
+				}
+			});
+		});
+
+		function init() {
+			product1 = $('.product1').ThreeSixty({
+				totalFrames: 52,  //图片的总数
+				endFrame: 52,
+				currentFrame: 1,  //初始化时现实的第几个元素
+				playSpeed: 10000,
+				imgList: '.threesixty_images',//显示图片的父级div
+				progress: '.spinner',//显示进度的div
+				imagePath: 'http://47.98.223.167:8080/CarTest/img/'+modelFileName+'/',//图片的路径
+				filePrefix: '',//用到的图片的前缀名称
+				ext: '.png',//存放的图片的后缀名（要一致)
+				height: 447,//显示区域的高度
+				width: 1000,//显示区域的宽度
+				navigation: true,//是否显示导航条（可以进行的操作：上一步   下一步   开始自动旋转）
+				responsive: true
+			});
+		}
+
+	</script>
+</body>
+
+</html>
